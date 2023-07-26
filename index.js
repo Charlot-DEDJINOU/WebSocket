@@ -14,9 +14,11 @@ function initializeDatabase() {
       console.log("Connexion à la base de donnée fermée");
     }
   });
+
+  return db ;
 }
 
-initializeDatabase() ;
+initializeDatabase()
 
 let clients = new Set();
 
@@ -24,6 +26,8 @@ server.on('connection', (ws) => {
 
   clients.add(ws);
   console.log('Nouvelle connexion WebSocket établie.');
+
+  db = databaseConfig.createDb() ;
 
   db.all('SELECT * FROM message', (err, rows) => {
     if (err) {
@@ -39,7 +43,7 @@ server.on('connection', (ws) => {
   ws.on('message', (message) => {
     console.log('Message reçu :', message);
 
-    message = JSON.parse(message);
+    message = JSON.parse(message) ;
     
     db.run('INSERT INTO message (destinateur, recepteur ,message) VALUES (?,?,?)', [message.destinateur , message.recepteur , message.message], (err) => {
       if (err) {
