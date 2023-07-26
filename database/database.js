@@ -23,7 +23,7 @@ function dbExist(db, callback) {
 function createTablemessage(db) {
   db.run(
     `CREATE TABLE IF NOT EXISTS message (
-      id INTERGER ,
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
       destinateur TEXT,
       recepteur TEXT,
       message TEXT
